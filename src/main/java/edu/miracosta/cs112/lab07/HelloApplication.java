@@ -1,26 +1,70 @@
-package edu.miracosta.cs112.lab07;//package name here depending on your IDE
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-import javafx.application.Application;  //abstract class used for JavaFX GUI's
-import javafx.stage.Stage;              //class for GUI window
-import javafx.scene.Scene;              //class for specific view in GUI window
-import javafx.scene.layout.VBox;        //class for layout pane, organized top-to-bottom
-import javafx.scene.control.Label;      //class for label component
-import javafx.scene.control.Button;     //class for button component
-import javafx.event.EventHandler;       //interface for handling events
-import javafx.event.ActionEvent;        //class for type of event for action (like button or key pressed)
+public class HelloApplication extends Application {
 
-public class HelloApplication extends Application  { //inheriting core functionality + this class will handle events
-    /*** GUI COMPONENTS ***/
-    // TODO: follow step 25 in README.md to create reference variables
+    // Instance variables for the labels, text field, and button press counter
+    private Label label1 = new Label("Hello GUI World");
+    private Label label2 = new Label("Press a button");
+    private TextField textField = new TextField();
+    private int buttonPressCount = 0;
 
-    /*** DRIVER main ***/
-    public static void main(String[] args) {
-        launch(args); //method from Application class, must be called to setup javafx application
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        primaryStage.setTitle("Hello GUI: Your Name");
+
+        StackPane layout = new StackPane();
+
+        AnchorPane anchorPane = new AnchorPane();
+
+        AnchorPane.setTopAnchor(label1, 10.0);
+        AnchorPane.setBottomAnchor(label2, 10.0);
+        AnchorPane.setTopAnchor(textField, 50.0);
+        AnchorPane.setLeftAnchor(textField, 50.0);
+
+        Button button1 = new Button("Update Label");
+        Button button2 = new Button("Button 2");
+
+        AnchorPane.setLeftAnchor(button1, 10.0);
+        AnchorPane.setRightAnchor(button2, 10.0);
+        AnchorPane.setBottomAnchor(button1, 10.0);
+        AnchorPane.setBottomAnchor(button2, 10.0);
+
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                label1.setText(textField.getText());
+            }
+        });
+
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonPressCount++;
+                label2.setText("Button 2 pressed " + buttonPressCount + " times");
+            }
+        });
+
+        anchorPane.getChildren().addAll(label1, label2, textField, button1, button2);
+
+        layout.getChildren().add(anchorPane);
+
+        Scene scene = new Scene(layout, 300, 300);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
     }
 
-    // TODO: follow steps 2-9 in README.md to create a start method
-
-    // TODO: follow steps 10-21 in README.md to add objects to your layout (inside start)
-
-    // TODO: follow steps 22-34 in README.md to create an event handler
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
